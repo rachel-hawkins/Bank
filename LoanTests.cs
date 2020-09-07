@@ -18,35 +18,51 @@ namespace Bank
         [SetUp]
         public void SetUpTests()
         {
-            this.WealthyLoaner = new Account(1000);
+            this.WealthyLoaner = new Account(10000);
             this.PoorLoaner = new Account(100);
             this.GoodLoan = new Loan(10000, 3.0f, WealthyLoaner, 10);
             this.BadLoan = new Loan(10000, 3.0f, PoorLoaner, 2);
         }
 
         [Test]
-        public void Test_CalculatePayments()
+        public void Test1_CalculatePayments()
         {
-            Assert.AreEqual(GoodLoan.CalculatePayments(), 1030);
+            Assert.AreEqual(1030, GoodLoan.CalculatePayments());
         }
   
         [Test]
-        public void Test_EligibilityGood()
+        public void Test2_EligibilityGood()
         {
             Assert.IsTrue(GoodLoan.CalculateEligibility());
         }
 
         [Test]
-        public void Test_EligibilityBad()
+        public void Test3_EligibilityBad()
         {
             Assert.IsFalse(BadLoan.CalculateEligibility());
         }
 
+        [Test]
+        public void Test4_LoanInterest()
+        {
+            Assert.AreEqual(12, GoodLoan.Interest(400));
+        }
 
         [Test]
-        public void Test_LoanInterest()
+        public void Test5_MakeGoodPayment()
         {
-            Assert.AreEqual(GoodLoan.Interest(400), 12);
+            GoodLoan.MakePayment(2000);
+
+            Assert.AreEqual(8000, WealthyLoaner.Balance());
+            Assert.AreEqual(8000, GoodLoan.Amount());
+        }
+        [Test]
+        public void Test6_MakeBadPayment()
+        {
+            BadLoan.MakePayment(2000);
+
+            Assert.AreEqual(100, PoorLoaner.Balance());
+            Assert.AreEqual(10000, BadLoan.Amount());
         }
     }
 }

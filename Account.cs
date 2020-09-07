@@ -31,7 +31,7 @@ namespace Bank
 
         public void Withdraw(float amount)
         {
-            if (this.balance - amount > minbalance)
+            if (this.balance - amount >= minbalance)
             {
                 this.balance -= Math.Abs(amount);
             }
@@ -40,7 +40,7 @@ namespace Bank
         public Account Transfer(Account destination, float amount)
         {
             amount = Math.Abs(amount);
-            if (this.balance - amount > minbalance)
+            if (this.balance - amount >= minbalance)
             {
                 destination.Deposit(amount);
                 this.balance -= amount;

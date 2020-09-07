@@ -36,8 +36,9 @@ namespace Bank
 
         public void MakePayment(float payment)
         {
-            if (this.amount-payment > 0)
+            if (this.amount-payment > 0 && this.acc.Balance() >= payment)
             {
+                this.acc.Withdraw(payment);
                 this.amount -= payment;
             }
         }
